@@ -1,0 +1,57 @@
+---
+title: "Data607_Assingment05"
+author: "Mahmud Hasan Al Raji"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+# Introduction: The pourpose of this assignment is to see the structures of data frame of a dataset wirtten in three different file formats: HTML,XML, and JSON.Here, a dataset on three books of interest have been created in three stated file formats and stored in github platform. Below are the file links: 
+
+
+* HTML: https://raw.githubusercontent.com/Raji030/data_607_html/main/new0000%201.html 
+* JSON: https://raw.githubusercontent.com/Raji030/myjsondata_607/main/data_607.json
+* XML:  https://raw.githubusercontent.com/Raji030/data_607_xmlfile/main/data607.xml 
+
+
+
+
+# Required Libraries
+
+```{r }
+library(XML)
+library(plyr)
+library(RCurl)
+library(jsonlite)
+```
+
+# Converting HTML file to data frame
+
+```{r }
+myhtml_file<-getURL("https://raw.githubusercontent.com/Raji030/data_607_html/main/new0000%201.html")
+myhtml_table<-readHTMLTable(myhtml_file)
+myhtml_data<-as.data.frame(myhtml_table)
+str(myhtml_data)
+```
+
+# Converting JSON the file to data frame 
+
+```{r }
+jsonfile<-fromJSON("https://raw.githubusercontent.com/Raji030/myjsondata_607/main/data_607.json")
+myjson_data<-as.data.frame(jsonfile)
+str(myjson_data)
+```
+
+# Converting XML file to data frame
+
+```{r }
+xmlfile<-getURL("https://raw.githubusercontent.com/Raji030/data_607_xmlfile/main/data607.xml")
+xmllist<-xmlToList(xmlParse(xmlfile))
+myxml_data <- ldply(xmllist, data.frame)
+str(myxml_data)
+```
+
+# Conclusion: The data frames are not identical for the three file formats. For the HTML and JSON file formats,though, both the data frames contain 3 observations and 5 variables, but they are presenting their author cloumns' values in different class and ways. On the other hand, the XML file format contains data frame with 3 observations and 8 variables.That data frame has been created with splitting the 3 author names from one book into 3 different columns rather to showing the all 3 author names in a single column. Thus, each data frame has been created in diffrent layouts.
+
+
+
